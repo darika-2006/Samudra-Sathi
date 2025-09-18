@@ -1,12 +1,53 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Samudra Sachet - Coastal Guardian App Color Palette
+ * Based on the provided UI mockups and design requirements
  */
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Primary Color Palette from UI Mockups
+export const AppColors = {
+  // Primary Background (from login/register screens)
+  primaryBackground: '#2D607E',
+  
+  // Input Field Background
+  inputBackground: '#7AB3C0',
+  
+  // Button Primary (Sign In/Sign Up)
+  buttonPrimary: '#2A363B',
+  
+  // Text Colors
+  textPrimary: '#FFFFFF',
+  textSecondary: '#E0E0E0',
+  textAccent: '#4E89B5',
+  
+  // SOS Button
+  sosButton: '#E57373',
+  
+  // Additional Palette Colors (from Frame 2)
+  secondaryBlue: '#6FA8DC',
+  darkTeal: '#0A5063',
+  lightGrey: '#A2B7BF',
+  lightPink: '#F0B2BA',
+  brown: '#7F5E3D',
+  cream: '#F2E9D8',
+  
+  // Status Colors
+  success: '#4CAF50',
+  warning: '#FF9800',
+  error: '#F44336',
+  info: '#2196F3',
+  
+  // Status Indicators
+  pendingSync: '#4E89B5',
+  synced: '#4CAF50',
+  underReview: '#FF9800',
+  verified: '#2E7D32',
+};
+
+// Legacy Colors for compatibility
+const tintColorLight = AppColors.textAccent;
+const tintColorDark = AppColors.textPrimary;
 
 export const Colors = {
   light: {

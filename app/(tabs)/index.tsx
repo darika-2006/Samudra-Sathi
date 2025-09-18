@@ -1,98 +1,147 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import { router } from 'expo-router';
+import { AppColors } from '@/constants/theme';
+import DashboardCard from '@/components/DashboardCard';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const handleSOSPress = () => {
+    Alert.alert(
+      'SOS Emergency',
+      'This will initiate an emergency report. Are you sure?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Report Emergency',
+          style: 'destructive',
+          onPress: () => {
+            // Navigate to emergency report screen
+            router.push('/report-hazard?emergency=true');
+          },
+        },
+      ]
+    );
+  };
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const handleQuickVoiceReport = () => {
+    router.push('/report-hazard');
+  };
+
+  const handleNearbyIncidents = () => {
+    // Navigate to a map or list view of nearby incidents
+    Alert.alert('Nearby Incidents', 'This feature will show incidents in your local area.');
+  };
+
+  const handleCriticalAlerts = () => {
+    // Navigate to alerts tab
+    router.push('/(tabs)/alerts');
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Header with Samudra Sathi Logo */}
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>Samudra Sathi</Text>
+        </View>
+      </View>
+
+      {/* Main Content Area with Dashboard Cards */}
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.dashboardContainer}>
+          <DashboardCard
+            icon="🎤"
+            title="Quick Voice Report"
+            subtitle="Tap here to send an instant voice note."
+            onPress={handleQuickVoiceReport}
+          />
+          
+          <DashboardCard
+            icon="📍"
+            title="Nearby Incidents"
+            subtitle="See reports from your local community."
+            onPress={handleNearbyIncidents}
+          />
+          
+          <DashboardCard
+            icon="🔔"
+            title="View Critical Alerts"
+            subtitle="Check for new warnings and updates."
+            onPress={handleCriticalAlerts}
+          />
+        </View>
+      </ScrollView>
+
+      {/* SOS Floating Action Button */}
+      <TouchableOpacity style={styles.sosButton} onPress={handleSOSPress}>
+        <Text style={styles.sosButtonText}>SOS</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 50, // Increased from 20 to provide more space from status bar
+    paddingBottom: 20, // Increased from 10 for better spacing
+    backgroundColor: '#FFFFFF', // Ensure consistent background
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  logoContainer: {
+    alignSelf: 'flex-start',
+  },
+  logoText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: AppColors.primaryBackground,
+    letterSpacing: 1,
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  dashboardContainer: {
+    paddingTop: 20,
+    paddingBottom: 100, // Extra padding to account for the floating SOS button
+  },
+  sosButton: {
     position: 'absolute',
+    bottom: 30,
+    right: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: AppColors.sosButton,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  sosButtonText: {
+    color: AppColors.textPrimary,
+    fontSize: 16,
+    fontWeight: 'bold',
+    letterSpacing: 1,
   },
 });

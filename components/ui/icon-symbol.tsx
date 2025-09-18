@@ -18,6 +18,13 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  // Additional mappings for tabs and common icons
+  'doc.text.fill': 'description',
+  'book': 'book',
+  'bell.fill': 'notifications',
+  'bell.badge.fill': 'notifications',
+  'gearshape.fill': 'settings',
+  'gearshape.2.fill': 'settings',
 } as IconMapping;
 
 /**
